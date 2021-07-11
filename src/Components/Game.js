@@ -5,13 +5,12 @@ class Game extends React.Component {
     constructor(props) {
         super(props)
 
-        // initialise the state of the game, use array within an array so we can distinguish the rows for styling
-        this.state = {
-            gameMatrix: [[0, 0, 0], [9, 0, 0], [9, 0, 0]]
-        }
 
+        // make a random array of n * m
         let game = [[0, 0, 0], [9, 0, 0], [9, 0, 0]]
 
+
+        // loop through the matrix and work out how many mines each cell is touching
         for (let i = 0; i < game.length; i++) {
             for (let j = 0; j < game[i].length; j++) {
                 if (game[i][j] !== 9) {
@@ -41,8 +40,15 @@ class Game extends React.Component {
 
         console.log(game)
 
+        // initialise the state of the game, use array within an array so we can distinguish the rows for styling
+        this.state = {
+            gameMatrix: game
+        }
 
-        // loop through the matrix and work out how many mines each cell is touching
+
+
+
+
         // for (let i = 0; i < game.length; i++) {
         //     for (let j = 0; j < game[i].length; j++) {
         //         if (game[i][j] !== 9) {
