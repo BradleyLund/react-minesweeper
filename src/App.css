@@ -93,3 +93,7 @@ ul {
 .game-info {
   margin-left: 20px;
 }
+
+.hidden {
+  background-color: #282c34;
+}
