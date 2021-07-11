@@ -7,6 +7,8 @@ import Board from "./Board";
 // could use state to give each square a class of hidden or not hidden?
 // or a handleclick function which uses even.target to change the class after click
 
+// doing the timer, set the date to now on first click and then update the clock
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -17,14 +19,6 @@ class Game extends React.Component {
       [9, 0, 0],
       [9, 0, 0],
     ];
-
-    let unhiddenSquare = [
-      [1, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ];
-
-    this.handleClick = this.handleClick.bind(this);
 
     // loop through the matrix and work out how many mines each cell is touching
     for (let i = 0; i < game.length; i++) {
@@ -55,24 +49,49 @@ class Game extends React.Component {
     // initialise the state of the game, use array within an array so we can distinguish the rows for styling
     this.state = {
       gameMatrix: game,
-      hiddenMatrix: unhiddenSquare,
+      elapsedTime: null,
     };
+
+    this.handleClick = this.handleClick.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+    this.countUp = this.countUp.bind(this);
+  }
+
+  startTimer() {
+    setInterval(this.countUp, 1000);
+  }
+
+  countUp() {
+    this.setState(({ elapsedTime }) => ({ elapsedTime: elapsedTime + 1 }));
   }
 
   handleClick(event) {
-    // testing to see if this works for changing of the class
+    // handle the start if it is the first click and maybe the timer doesn't exist in setstate
+    if (this.state.elapsedTime === null) {
+      this.startTimer();
+    }
+    // handle if it is a bomb
     let clickedSquare = document.getElementById(event.target.id);
-    clickedSquare.classList.add("hidden");
+    if (event.target.textContent === "💣") {
+      alert("You hit a bomb");
+      clickedSquare.classList.add("losing-bomb");
+      // recursively open up each of the tiles with a bomb them but this one gets a background of red
+    } else if (event.target.textContent === "") {
+      // recursively open up all the tiles connected to this one that are also zero
+    }
+    // testing to see if this works for changing of the class
+
+    clickedSquare.classList.remove("hidden");
   }
 
   render() {
     return (
       <div className="game">
         <div className="game-board">
+          <div>{this.state.elapsedTime}</div>
           {/* pass down the state of the gameMatrix down to the board */}
           <Board
             gameMatrix={this.state.gameMatrix}
-            hiddenMatrix={this.state.hiddenMatrix}
             handleClick={this.handleClick}
           />
         </div>

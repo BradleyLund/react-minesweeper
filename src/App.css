@@ -95,5 +95,11 @@ ul {
 }
 
 .hidden {
-  background-color: #282c34;
+  background-color: #C6C6C6;
+  /* Make this font-size 0 so until it is clicked, nothing will show */
+  font-size: 0;
+}
+
+.losing-bomb {
+  background-color: red;
 }
