@@ -87,6 +87,7 @@ class Game extends React.Component {
       lost: null,
       won: null,
       bombCount: 10,
+      message: "Enjoy the game!",
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -149,7 +150,10 @@ class Game extends React.Component {
     // say you win with the time it took
 
     if (gameWon) {
-      this.setState({ won: true });
+      this.setState({
+        won: true,
+        message: `You won in ${this.state.elapsedTime} seconds!`,
+      });
     }
 
     console.log(gameWon);
@@ -178,7 +182,10 @@ class Game extends React.Component {
           }
         }
 
-        this.setState({ lost: true });
+        this.setState({
+          lost: true,
+          message: `You lose! Click restart to play again!`,
+        });
         // pop up with restart as an option and then it just reloads the page?
       } else if (event.target.textContent === "") {
         // recursively open up all the tiles connected to this one that are also zero
@@ -246,7 +253,13 @@ class Game extends React.Component {
     for (let i = 0; i < this.state.gameMatrix.length; i++) {
       for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
         let square = document.getElementById(`${i}${j}`);
-        if (square.classList.contains("hidden")) {
+
+        // if any tile contains hiddden then the game is not over, if they are all
+        // unhidden but one of the tiles has the losing bomb class then the game was lost
+        if (
+          square.classList.contains("hidden") ||
+          square.classList.contains("losing-bomb")
+        ) {
           gameWon = false;
         }
       }
@@ -256,7 +269,10 @@ class Game extends React.Component {
     // say you win with the time it took
 
     if (gameWon) {
-      this.setState({ won: true });
+      this.setState({
+        won: true,
+        message: `You won in ${this.state.elapsedTime} seconds!`,
+      });
     }
   }
 
@@ -264,9 +280,13 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
+          <div id="message">{this.state.message}</div>
+
           <div id="information">
             <div>🕙 {this.state.elapsedTime}</div>
-            <button onClick={this.handleRestart}>Restart</button>
+            <button id="restartButton" onClick={this.handleRestart}>
+              Restart
+            </button>
             <div>💣{this.state.bombCount}</div>
           </div>
 
@@ -276,6 +296,25 @@ class Game extends React.Component {
             handleClick={this.handleClick}
             handleContextClick={this.handleContextClick}
           />
+
+          <div id="howTo">
+            <h2>How to play the game:</h2>
+            <p>
+              You need to find the ten bombs that are hidden in the mine field.
+              <br></br>
+              <br></br>
+              Click on a tile to reveal what is underneath it. The number
+              indicates how many bombs are in neighbouring tiles.
+              <br></br>
+              <br></br>
+              Right click to 'flag' a bomb if you think you have found one. Once
+              you find all ten bombs and clear the rest of the minefield you
+              win!
+              <br></br>
+              <br></br>
+              If you click on a mine you lose!
+            </p>
+          </div>
         </div>
       </div>
     );

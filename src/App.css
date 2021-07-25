@@ -130,13 +130,31 @@ ul {
 button {
   display: inline-block;
   border: none;
+  /* using rem here which is the root elements font size */
   padding: 1rem 1rem;
   margin: 0;
   text-decoration: none;
-  background: #0069ed;
-  color: #ffffff;
+
   font-family: sans-serif;
-  font-size: 1rem;
+  /* font-size: 1rem; */
+  /* make the cursor a cool one */
   cursor: pointer;
   text-align: center;
+}
+
+#restartButton {
+  background: #0069ed;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+#message {
+  margin-top: 20px;
+  font-size: 2rem;
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+#howTo {
+  width: 300px;
 }
