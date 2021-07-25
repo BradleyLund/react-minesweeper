@@ -17,21 +17,40 @@ class Game extends React.Component {
     // 0 and 8 and then we can modulus that number to get where in the array it should go
     // make sure that the second number is not the same as the first one
 
-    let bomb1 = Math.floor(Math.random() * 10);
-    let bomb2 = Math.floor(Math.random() * 10);
+    let bombArray = [];
+
+    let bomb1 = Math.floor(Math.random() * 9);
+    let bomb2 = Math.floor(Math.random() * 9);
 
     // make sure the two bombs are in different positions in the array
     while (bomb1 === bomb2) {
-      bomb2 = Math.floor(Math.random() * 10);
+      bomb2 = Math.floor(Math.random() * 9);
     }
 
-    console.log(bomb1, bomb2);
+    bombArray.push(bomb1, bomb2);
+
+    console.log(bomb1, bomb2, bombArray);
+
     // make a random array of n * m
+    //  initialise the game array
     let game = [
       [0, 0, 0],
-      [9, 0, 0],
-      [9, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
     ];
+
+    for (let i = 0; i < bombArray.length; i++) {
+      // get the index for the first part of the game array for the random number
+      let index1 = Math.floor(bombArray[i] / 3);
+
+      // get the index for the second part of the array for the random number
+      let index2 = bombArray[i] % 3;
+
+      // push the bomb value (9) to the correct position in the array
+      game[index1][index2] = 9;
+    }
+
+    console.log(game);
 
     // loop through the matrix and work out how many mines each cell is touching
     for (let i = 0; i < game.length; i++) {
