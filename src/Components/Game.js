@@ -13,6 +13,19 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
 
+    // generate a random array with Math.random, for now lets do 2 bombs and get a number between
+    // 0 and 8 and then we can modulus that number to get where in the array it should go
+    // make sure that the second number is not the same as the first one
+
+    let bomb1 = Math.floor(Math.random() * 10);
+    let bomb2 = Math.floor(Math.random() * 10);
+
+    // make sure the two bombs are in different positions in the array
+    while (bomb1 === bomb2) {
+      bomb2 = Math.floor(Math.random() * 10);
+    }
+
+    console.log(bomb1, bomb2);
     // make a random array of n * m
     let game = [
       [0, 0, 0],
@@ -38,7 +51,7 @@ class Game extends React.Component {
               }
             }
           }
-          console.log(count);
+          // console.log(count);
           game[i][j] = count;
         }
       }
