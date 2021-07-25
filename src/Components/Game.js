@@ -82,12 +82,14 @@ class Game extends React.Component {
     this.state = {
       gameMatrix: game,
       elapsedTime: null,
+      lost: null,
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.countUp = this.countUp.bind(this);
     this.handleContextClick = this.handleContextClick.bind(this);
+    this.handleRestart = this.handleRestart.bind(this);
   }
 
   startTimer() {
@@ -95,7 +97,13 @@ class Game extends React.Component {
   }
 
   countUp() {
-    this.setState(({ elapsedTime }) => ({ elapsedTime: elapsedTime + 1 }));
+    if (this.state.lost !== true) {
+      this.setState(({ elapsedTime }) => ({ elapsedTime: elapsedTime + 1 }));
+    }
+  }
+
+  handleRestart() {
+    window.location.reload();
   }
 
   // handle the onContextMenu click, for each square to give the square a flag
@@ -128,9 +136,19 @@ class Game extends React.Component {
     // handle if it is a bomb
     let clickedSquare = document.getElementById(event.target.id);
     if (event.target.textContent === "💣") {
-      alert("You hit a bomb");
+      // alert("You hit a bomb");
       clickedSquare.classList.add("losing-bomb");
-      // recursively open up each of the tiles with a bomb them but this one gets a background of red
+
+      // loop through all of the squares and take away the hidden class
+      for (let i = 0; i < this.state.gameMatrix.length; i++) {
+        for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
+          let square = document.getElementById(`${i}${j}`);
+          square.classList.remove("hidden");
+        }
+      }
+
+      this.setState({ lost: true });
+      // pop up with restart as an option and then it just reloads the page?
     } else if (event.target.textContent === "") {
       // recursively open up all the tiles connected to this one that are also zero
     }
@@ -144,6 +162,8 @@ class Game extends React.Component {
       <div className="game">
         <div className="game-board">
           <div>{this.state.elapsedTime}</div>
+          <div>{this.state.lost ? "You lose!" : "Good luck!"}</div>
+          <button onClick={this.handleRestart}>Restart</button>
           {/* pass down the state of the gameMatrix down to the board */}
           <Board
             gameMatrix={this.state.gameMatrix}
