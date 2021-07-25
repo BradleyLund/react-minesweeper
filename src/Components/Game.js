@@ -17,53 +17,55 @@ class Game extends React.Component {
     // 0 and 8 and then we can modulus that number to get where in the array it should go
     // make sure that the second number is not the same as the first one
 
-    let bombArray = [];
+    let bombArrayTen = [];
+    // make an array of ten bombs in different places
+    for (let i = 0; i < 10; i++) {
+      let randomBomb = Math.floor(Math.random() * 81);
 
-    let bomb1 = Math.floor(Math.random() * 9);
-    let bomb2 = Math.floor(Math.random() * 9);
+      // make sure we get a new bomb and no duplicate positions
+      while (bombArrayTen.indexOf(randomBomb) !== -1) {
+        randomBomb = Math.floor(Math.random() * 81);
+      }
 
-    // make sure the two bombs are in different positions in the array
-    while (bomb1 === bomb2) {
-      bomb2 = Math.floor(Math.random() * 9);
+      bombArrayTen.push(randomBomb);
     }
 
-    bombArray.push(bomb1, bomb2);
+    console.log(bombArrayTen);
 
-    console.log(bomb1, bomb2, bombArray);
+    // make a random array of 9*9
+    let gameArray = [];
+    for (let i = 0; i < 9; i++) {
+      let rowArray = new Array(9).fill(0);
+      gameArray.push(rowArray);
+    }
 
-    // make a random array of n * m
-    //  initialise the game array
-    let game = [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ];
+    console.log(gameArray);
 
-    for (let i = 0; i < bombArray.length; i++) {
+    for (let i = 0; i < bombArrayTen.length; i++) {
       // get the index for the first part of the game array for the random number
-      let index1 = Math.floor(bombArray[i] / 3);
+      let index1 = Math.floor(bombArrayTen[i] / 9);
 
       // get the index for the second part of the array for the random number
-      let index2 = bombArray[i] % 3;
+      let index2 = bombArrayTen[i] % 9;
 
       // push the bomb value (9) to the correct position in the array
-      game[index1][index2] = 9;
+      gameArray[index1][index2] = 9;
     }
 
-    console.log(game);
+    console.log(gameArray);
 
     // loop through the matrix and work out how many mines each cell is touching
-    for (let i = 0; i < game.length; i++) {
-      for (let j = 0; j < game[i].length; j++) {
-        if (game[i][j] !== 9) {
+    for (let i = 0; i < gameArray.length; i++) {
+      for (let j = 0; j < gameArray[i].length; j++) {
+        if (gameArray[i][j] !== 9) {
           let count = 0;
 
           for (let k = -1; k < 2; k++) {
-            if (game[i + k] !== undefined) {
+            if (gameArray[i + k] !== undefined) {
               for (let l = -1; l < 2; l++) {
-                if (game[i + k][j + l] !== undefined) {
+                if (gameArray[i + k][j + l] !== undefined) {
                   // console.log(game[i + k][0 + l])
-                  if (game[i + k][j + l] === 9) {
+                  if (gameArray[i + k][j + l] === 9) {
                     count++;
                   }
                 }
@@ -71,18 +73,19 @@ class Game extends React.Component {
             }
           }
           // console.log(count);
-          game[i][j] = count;
+          gameArray[i][j] = count;
         }
       }
     }
 
-    console.log(game);
+    console.log(gameArray);
 
     // initialise the state of the game, use array within an array so we can distinguish the rows for styling
     this.state = {
-      gameMatrix: game,
+      gameMatrix: gameArray,
       elapsedTime: null,
       lost: null,
+      won: null,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -97,7 +100,7 @@ class Game extends React.Component {
   }
 
   countUp() {
-    if (this.state.lost !== true) {
+    if (this.state.lost !== true && this.state.won !== true) {
       this.setState(({ elapsedTime }) => ({ elapsedTime: elapsedTime + 1 }));
     }
   }
@@ -125,6 +128,28 @@ class Game extends React.Component {
       square.classList.add("hidden");
     }
 
+    // check if none of the squares have the hidden class then they have won
+    // initialise the boolean
+    let gameWon = true;
+    console.log(gameWon);
+
+    for (let i = 0; i < this.state.gameMatrix.length; i++) {
+      for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
+        let square = document.getElementById(`${i}${j}`);
+        if (square.classList.contains("hidden")) {
+          gameWon = false;
+        }
+      }
+    }
+
+    // if gameWon is true then the player won and the timer should be stopped and should
+    // say you win with the time it took
+
+    if (gameWon) {
+      this.setState({ won: true });
+    }
+
+    console.log(gameWon);
     console.log(square);
   }
 
@@ -151,10 +176,77 @@ class Game extends React.Component {
       // pop up with restart as an option and then it just reloads the page?
     } else if (event.target.textContent === "") {
       // recursively open up all the tiles connected to this one that are also zero
+      // and open up all the tiles surrounding it
+      let gameMatrix = this.state.gameMatrix;
+      let alreadyChecked = [];
+      // create a function to change the class of those around it
+      function removeAround(i, j) {
+        // let i = locationId.split("")[0];
+        // let j = locationId.split("")[1];
+        console.log(gameMatrix, i, j, gameMatrix[i][j]);
+        console.log("what");
+        for (let k = -1; k < 2; k++) {
+          // console.log("is", k, gameMatrix[i + k], i + k);
+          if (gameMatrix[i + k] !== undefined) {
+            // console.log("hello");
+            for (let l = -1; l < 2; l++) {
+              if (gameMatrix[i + k][j + l] !== undefined) {
+                // remove the hidden class for the square with this id
+                let index1 = String(i + k);
+                let index2 = String(j + l);
+
+                let id = index1 + index2;
+
+                let square = document.getElementById(id);
+
+                square.classList.remove("hidden");
+                console.log(index1, index2, id, square);
+
+                //
+                if (
+                  gameMatrix[i + k][j + l] === 0 &&
+                  alreadyChecked.indexOf(id) === -1
+                ) {
+                  // submit it to the removeAround Function
+                  alreadyChecked.push(id);
+                  removeAround(i + k, j + l);
+                  // add this id to an array of already checked and if already checked,
+                  // don't run removearound for that square
+                }
+              }
+            }
+          }
+        }
+      }
+
+      console.log(event.target.id[0], event.target.id[1]);
+      // then while removing the classes if textContent of that id is nothing
+      // submit the id to the function
+      removeAround(parseInt(event.target.id[0]), parseInt(event.target.id[1]));
     }
     // testing to see if this works for changing of the class
 
     clickedSquare.classList.remove("hidden");
+
+    // check if none of the squares have the hidden class then they have won
+    // initialise the boolean
+    let gameWon = true;
+
+    for (let i = 0; i < this.state.gameMatrix.length; i++) {
+      for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
+        let square = document.getElementById(`${i}${j}`);
+        if (square.classList.contains("hidden")) {
+          gameWon = false;
+        }
+      }
+    }
+
+    // if gameWon is true then the player won and the timer should be stopped and should
+    // say you win with the time it took
+
+    if (gameWon) {
+      this.setState({ won: true });
+    }
   }
 
   render() {
