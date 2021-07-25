@@ -87,6 +87,7 @@ class Game extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.countUp = this.countUp.bind(this);
+    this.handleContextClick = this.handleContextClick.bind(this);
   }
 
   startTimer() {
@@ -95,6 +96,28 @@ class Game extends React.Component {
 
   countUp() {
     this.setState(({ elapsedTime }) => ({ elapsedTime: elapsedTime + 1 }));
+  }
+
+  // handle the onContextMenu click, for each square to give the square a flag
+  handleContextClick(event) {
+    event.preventDefault();
+
+    // give variable square the dom element of the appropriate square
+    let square = event.target;
+    // check what class the square has and then add question mark or red flag or nothing
+    // check if hidden, if not do nothing
+    // classlist is a DOM tokenlist not an array
+    let squareClassArray = [...square.classList];
+    if (squareClassArray.indexOf("hidden") !== -1) {
+      // add the class of the flag
+      square.classList.remove("hidden");
+      square.classList.add("flag");
+    } else if (squareClassArray.indexOf("flag") !== -1) {
+      square.classList.remove("flag");
+      square.classList.add("hidden");
+    }
+
+    console.log(square);
   }
 
   handleClick(event) {
@@ -125,6 +148,7 @@ class Game extends React.Component {
           <Board
             gameMatrix={this.state.gameMatrix}
             handleClick={this.handleClick}
+            handleContextClick={this.handleContextClick}
           />
         </div>
       </div>

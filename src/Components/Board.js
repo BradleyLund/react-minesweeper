@@ -16,6 +16,7 @@ class Board extends React.Component {
             rowIndex={rowIndex}
             index={index}
             handleClick={this.props.handleClick}
+            handleContextClick={this.props.handleContextClick}
           />
         ))}{" "}
       </div>

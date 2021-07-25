@@ -38,8 +38,6 @@
   }
 }
 
-
-
 /* basic css from the tic tac toe tutorial to get a basic board set up in the beginning */
 
 body {
@@ -95,11 +93,21 @@ ul {
 }
 
 .hidden {
-  background-color: #C6C6C6;
+  background-color: #c6c6c6;
   /* Make this font-size 0 so until it is clicked, nothing will show */
   font-size: 0;
 }
 
 .losing-bomb {
   background-color: red;
+}
+
+.flag {
+  /* background-color: blue; */
+  /* Make this font-size 0 so until it is clicked, nothing will show */
+  font-size: 0;
+  background: url("./triangular-flag-removebg-preview.png");
+  background-size: 34px 34px;
+  background-repeat: no-repeat;
+  background-color: #c6c6c6;
 }

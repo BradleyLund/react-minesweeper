@@ -8,6 +8,7 @@ class Square extends React.Component {
         className="square hidden"
         id={`${this.props.rowIndex}${this.props.index}`}
         onClick={(event) => this.props.handleClick(event)}
+        onContextMenu={(event) => this.props.handleContextClick(event)}
       >
         {this.props.value === 9
           ? "💣"
