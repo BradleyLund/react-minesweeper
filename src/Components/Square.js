@@ -9,7 +9,7 @@ class Square extends React.Component {
         id={`${this.props.rowIndex}${this.props.index}`}
         onClick={(event) => this.props.handleClick(event)}
         onContextMenu={(event) => this.props.handleContextClick(event)}
-      >
+        key={`${this.props.rowIndex}${this.props.index}`}>
         {this.props.value === 9
           ? "💣"
           : this.props.value === 0
