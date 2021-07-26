@@ -44,22 +44,19 @@ class Helpdialog extends React.Component {
           <DialogTitle>{"How to play the game"}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              <p>
-                You need to find the ten bombs that are hidden in the mine
-                field.
-                <br></br>
-                <br></br>
-                Click on a tile to reveal what is underneath it. The number
-                indicates how many bombs are in neighbouring tiles.
-                <br></br>
-                <br></br>
-                Right click to 'flag' a bomb if you think you have found one.
-                Once you find all ten bombs and clear the rest of the minefield
-                you win!
-                <br></br>
-                <br></br>
-                If you click on a mine you lose!
-              </p>
+              You need to find the ten bombs that are hidden in the mine field.
+              <br></br>
+              <br></br>
+              Click on a tile to reveal what is underneath it. The number
+              indicates how many bombs are in neighbouring tiles.
+              <br></br>
+              <br></br>
+              Right click to 'flag' a bomb if you think you have found one. Once
+              you find all ten bombs and clear the rest of the minefield you
+              win!
+              <br></br>
+              <br></br>
+              If you click on a mine you lose!
             </DialogContentText>
           </DialogContent>
           <DialogActions>

@@ -86,6 +86,7 @@ ul {
 .game {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .game-info {
@@ -106,7 +107,7 @@ ul {
   /* background-color: blue; */
   /* Make this font-size 0 so until it is clicked, nothing will show */
   font-size: 0;
-  background: url("./triangular-flag-removebg-preview.png");
+  background: url("./flag-red.svg");
   background-size: 34px 34px;
   background-repeat: no-repeat;
   background-color: #c6c6c6;
@@ -156,6 +157,7 @@ button {
 
 #helpDiv {
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #message {
@@ -167,4 +169,10 @@ button {
 
 #howTo {
   width: 300px;
+}
+
+#everything {
+  background-color: #61dafb;
+  width: 400px;
+  border-radius: 5px;
 }
