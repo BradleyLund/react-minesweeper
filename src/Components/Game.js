@@ -2,6 +2,89 @@ import React from "react";
 import Board from "./Board";
 import Message from "./Message";
 import Helpdialog from "./Helpdialog";
+import Settingsdialog from "./Settingsdialog";
+
+// generate a random array with Math.random, for now lets do 2 bombs and get a number between
+// 0 and 8 and then we can modulus that number to get where in the array it should go
+// make sure that the second number is not the same as the first one
+function makeGameArray(width, height, bombCount) {
+  let bombArray = [];
+  // make an array of ten bombs in different places
+  for (let i = 0; i < bombCount; i++) {
+    let randomBomb = Math.floor(Math.random() * (width * height));
+
+    // make sure we get a new bomb and no duplicate positions
+    while (bombArray.indexOf(randomBomb) !== -1) {
+      randomBomb = Math.floor(Math.random() * (width * height));
+    }
+
+    bombArray.push(randomBomb);
+  }
+
+  // console.log(bombArray);
+
+  // make a random array of 9*9
+  let gameArray = [];
+  for (let i = 0; i < height; i++) {
+    let rowArray = new Array(width).fill(0);
+    gameArray.push(rowArray);
+  }
+
+  // console.log(gameArray);
+  console.log(bombArray);
+  for (let i = 0; i < bombArray.length; i++) {
+    // get the index for the first part of the game array for the random number
+    let index1 = Math.floor(bombArray[i] / width);
+    console.log(index1, width);
+    // get the index for the second part of the array for the random number
+    let index2;
+    if (index1 === 0) {
+      // if the first index is 0 then it is in the first row of the matrix and the position in that row
+      // is just its value i.e. if a 3*3 matrix, and the number is 0,1,2 its index1 will be 0 and then its position
+      // willl just be itself
+      index2 = bombArray[i];
+    } else {
+      // if it is in a different row then we need to modulus the number
+      // with the number at the beginning of the row
+      index2 = bombArray[i] % (index1 * width);
+    }
+
+    console.log(index2, height);
+    // console.log(index1, index2, gameArray[index1][index2]);
+    // push the bomb value (9) to the correct position in the array
+    gameArray[index1][index2] = 9;
+  }
+
+  // console.log(gameArray);
+
+  // loop through the matrix and work out how many mines each cell is touching
+  for (let i = 0; i < gameArray.length; i++) {
+    for (let j = 0; j < gameArray[i].length; j++) {
+      if (gameArray[i][j] !== 9) {
+        let count = 0;
+
+        for (let k = -1; k < 2; k++) {
+          if (gameArray[i + k] !== undefined) {
+            for (let l = -1; l < 2; l++) {
+              if (gameArray[i + k][j + l] !== undefined) {
+                // console.log(game[i + k][0 + l])
+                if (gameArray[i + k][j + l] === 9) {
+                  count++;
+                }
+              }
+            }
+          }
+        }
+        // console.log(count);
+        gameArray[i][j] = count;
+      }
+    }
+  }
+
+  // console.log(gameArray);
+
+  return gameArray;
+}
 
 // give each of the squares a class of hidden to start with
 // take the hidden class off of the element that has been clicked
@@ -15,81 +98,16 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
 
-    // generate a random array with Math.random, for now lets do 2 bombs and get a number between
-    // 0 and 8 and then we can modulus that number to get where in the array it should go
-    // make sure that the second number is not the same as the first one
-
-    let bombArrayTen = [];
-    // make an array of ten bombs in different places
-    for (let i = 0; i < 10; i++) {
-      let randomBomb = Math.floor(Math.random() * 81);
-
-      // make sure we get a new bomb and no duplicate positions
-      while (bombArrayTen.indexOf(randomBomb) !== -1) {
-        randomBomb = Math.floor(Math.random() * 81);
-      }
-
-      bombArrayTen.push(randomBomb);
-    }
-
-    console.log(bombArrayTen);
-
-    // make a random array of 9*9
-    let gameArray = [];
-    for (let i = 0; i < 9; i++) {
-      let rowArray = new Array(9).fill(0);
-      gameArray.push(rowArray);
-    }
-
-    console.log(gameArray);
-
-    for (let i = 0; i < bombArrayTen.length; i++) {
-      // get the index for the first part of the game array for the random number
-      let index1 = Math.floor(bombArrayTen[i] / 9);
-
-      // get the index for the second part of the array for the random number
-      let index2 = bombArrayTen[i] % 9;
-
-      // push the bomb value (9) to the correct position in the array
-      gameArray[index1][index2] = 9;
-    }
-
-    console.log(gameArray);
-
-    // loop through the matrix and work out how many mines each cell is touching
-    for (let i = 0; i < gameArray.length; i++) {
-      for (let j = 0; j < gameArray[i].length; j++) {
-        if (gameArray[i][j] !== 9) {
-          let count = 0;
-
-          for (let k = -1; k < 2; k++) {
-            if (gameArray[i + k] !== undefined) {
-              for (let l = -1; l < 2; l++) {
-                if (gameArray[i + k][j + l] !== undefined) {
-                  // console.log(game[i + k][0 + l])
-                  if (gameArray[i + k][j + l] === 9) {
-                    count++;
-                  }
-                }
-              }
-            }
-          }
-          // console.log(count);
-          gameArray[i][j] = count;
-        }
-      }
-    }
-
-    console.log(gameArray);
-
     // initialise the state of the game, use array within an array so we can distinguish the rows for styling
     this.state = {
-      gameMatrix: gameArray,
+      gameMatrix: makeGameArray(9, 9, 10),
       elapsedTime: null,
       lost: null,
       won: null,
       bombCount: 10,
       message: "Enjoy the game!",
+      width: 9,
+      height: 9,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -137,7 +155,7 @@ class Game extends React.Component {
     // check if none of the squares have the hidden class then they have won
     // initialise the boolean
     let gameWon = true;
-    console.log(gameWon);
+    // console.log(gameWon);
 
     for (let i = 0; i < this.state.gameMatrix.length; i++) {
       for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
@@ -158,8 +176,8 @@ class Game extends React.Component {
       });
     }
 
-    console.log(gameWon);
-    console.log(square);
+    // console.log(gameWon);
+    // console.log(square);
   }
 
   handleClick(event) {
@@ -198,8 +216,8 @@ class Game extends React.Component {
         function removeAround(i, j) {
           // let i = locationId.split("")[0];
           // let j = locationId.split("")[1];
-          console.log(gameMatrix, i, j, gameMatrix[i][j]);
-          console.log("what");
+          // console.log(gameMatrix, i, j, gameMatrix[i][j]);
+          // console.log("what");
           for (let k = -1; k < 2; k++) {
             // console.log("is", k, gameMatrix[i + k], i + k);
             if (gameMatrix[i + k] !== undefined) {
@@ -215,7 +233,7 @@ class Game extends React.Component {
                   let square = document.getElementById(id);
 
                   square.classList.remove("hidden");
-                  console.log(index1, index2, id, square);
+                  // console.log(index1, index2, id, square);
 
                   //
                   if (
@@ -234,7 +252,7 @@ class Game extends React.Component {
           }
         }
 
-        console.log(event.target.id[0], event.target.id[1]);
+        // console.log(event.target.id[0], event.target.id[1]);
         // then while removing the classes if textContent of that id is nothing
         // submit the id to the function
         removeAround(
@@ -298,8 +316,12 @@ class Game extends React.Component {
             handleClick={this.handleClick}
             handleContextClick={this.handleContextClick}
           />
-
-          <Helpdialog />
+          <div>
+            <Helpdialog />
+            {/* Make a settings dialog here with a form input that only allows up to 20*20 and as 
+          many bombs as the n*m that has been selected */}
+            <Settingsdialog />
+          </div>
         </div>
       </div>
     );
