@@ -148,6 +148,16 @@ button {
   border-radius: 5px;
 }
 
+#helpButton {
+  background: #0069ed;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+#helpDiv {
+  margin-top: 20px;
+}
+
 #message {
   margin-top: 20px;
   font-size: 2rem;

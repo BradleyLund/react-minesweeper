@@ -1,5 +1,7 @@
 import React from "react";
 import Board from "./Board";
+import Message from "./Message";
+import Helpdialog from "./Helpdialog";
 
 // give each of the squares a class of hidden to start with
 // take the hidden class off of the element that has been clicked
@@ -280,7 +282,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <div id="message">{this.state.message}</div>
+          <Message message={this.state.message} />
 
           <div id="information">
             <div>🕙 {this.state.elapsedTime}</div>
@@ -297,24 +299,7 @@ class Game extends React.Component {
             handleContextClick={this.handleContextClick}
           />
 
-          <div id="howTo">
-            <h2>How to play the game:</h2>
-            <p>
-              You need to find the ten bombs that are hidden in the mine field.
-              <br></br>
-              <br></br>
-              Click on a tile to reveal what is underneath it. The number
-              indicates how many bombs are in neighbouring tiles.
-              <br></br>
-              <br></br>
-              Right click to 'flag' a bomb if you think you have found one. Once
-              you find all ten bombs and clear the rest of the minefield you
-              win!
-              <br></br>
-              <br></br>
-              If you click on a mine you lose!
-            </p>
-          </div>
+          <Helpdialog />
         </div>
       </div>
     );
