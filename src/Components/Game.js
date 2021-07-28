@@ -115,6 +115,8 @@ class Game extends React.Component {
     this.countUp = this.countUp.bind(this);
     this.handleContextClick = this.handleContextClick.bind(this);
     this.handleRestart = this.handleRestart.bind(this);
+    this.handleSettingsChange = this.handleSettingsChange.bind(this);
+    this.handleSettingsSubmit = this.handleSettingsSubmit.bind(this);
   }
 
   startTimer() {
@@ -129,6 +131,27 @@ class Game extends React.Component {
 
   handleRestart() {
     window.location.reload();
+  }
+
+  handleSettingsChange(event) {
+    // console.log(event);
+    if (event.target.id === "width") {
+      this.setState({ width: event.target.value });
+    } else if (event.target.id === "height") {
+      this.setState({ height: event.target.value });
+    } else {
+      this.setState({ bombCount: event.target.value });
+    }
+  }
+
+  handleSettingsSubmit() {
+    this.setState({
+      gameMatrix: makeGameArray(
+        this.state.width,
+        this.state.height,
+        this.state.bombCount
+      ),
+    });
   }
 
   // handle the onContextMenu click, for each square to give the square a flag
@@ -320,7 +343,13 @@ class Game extends React.Component {
             <Helpdialog />
             {/* Make a settings dialog here with a form input that only allows up to 20*20 and as 
           many bombs as the n*m that has been selected */}
-            <Settingsdialog />
+            <Settingsdialog
+              bombCount={this.state.bombCount}
+              height={this.state.height}
+              width={this.state.width}
+              handleSettingsChange={this.handleSettingsChange}
+              handleSettingsSubmit={this.handleSettingsSubmit}
+            />
           </div>
         </div>
       </div>

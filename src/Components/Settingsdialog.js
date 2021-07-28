@@ -36,30 +36,67 @@ class Settingsdialog extends React.Component {
 
   render() {
     return (
-      <div id="helpDiv">
-        <button id="helpButton" onClick={this.handleClickToOpen}>
+      <div id="settingsDiv">
+        <button id="settingsButton" onClick={this.handleClickToOpen}>
           Help
         </button>
         <Dialog open={this.state.open} onClose={this.handleToClose}>
-          <DialogTitle>{"How to play the game"}</DialogTitle>
+          <DialogTitle>Settings</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              You need to find the ten bombs that are hidden in the mine field.
-              <br></br>
-              <br></br>
-              Click on a tile to reveal what is underneath it. The number
-              indicates how many bombs are in neighbouring tiles.
-              <br></br>
-              <br></br>
-              Right click to 'flag' a bomb if you think you have found one. Once
-              you find all ten bombs and clear the rest of the minefield you
-              win!
-              <br></br>
-              <br></br>
-              If you click on a mine you lose!
+              <div id="settings">
+                <div className="inputs">
+                  <label for="bombs">Bombs: </label>
+                  {/* min and max for the following is calculated by the width and height values in state */}
+                  <input
+                    type="number"
+                    id="bombs"
+                    name="bombs"
+                    min="10"
+                    max={this.props.height * this.props.width}
+                    value={this.props.bombCount}
+                    onChange={(event) =>
+                      this.props.handleSettingsChange(event)
+                    }></input>
+                </div>
+
+                <div className="inputs">
+                  <label for="width">Width: </label>
+                  <input
+                    type="number"
+                    id="width"
+                    name="width"
+                    min="9"
+                    max="20"
+                    value={this.props.width}
+                    onChange={(event) =>
+                      this.props.handleSettingsChange(event)
+                    }></input>
+                </div>
+
+                <div className="inputs">
+                  <label for="height">Height: </label>
+                  <input
+                    type="number"
+                    id="height"
+                    name="height"
+                    min="9"
+                    max="20"
+                    value={this.props.height}
+                    onChange={(event) =>
+                      this.props.handleSettingsChange(event)
+                    }></input>
+                </div>
+              </div>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
+            <Button
+              onClick={this.props.handleSettingsSubmit}
+              color="primary"
+              autoFocus>
+              Submit
+            </Button>
             <Button onClick={this.handleToClose} color="primary" autoFocus>
               Close
             </Button>
@@ -71,3 +108,6 @@ class Settingsdialog extends React.Component {
 }
 
 export default Settingsdialog;
+
+// let the number select manipulate the state of the form and then only on submit does the gameMatrix update
+// with the function using the height and width from the state

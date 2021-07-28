@@ -176,3 +176,16 @@ button {
   width: 400px;
   border-radius: 5px;
 }
+
+#settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width:300px;
+}
+
+.inputs {
+  margin:5px;
+  display: flex;
+  justify-content: space-between;
+}
