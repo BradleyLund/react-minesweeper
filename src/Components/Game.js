@@ -31,11 +31,11 @@ function makeGameArray(width, height, bombCount) {
   }
 
   // console.log(gameArray);
-  console.log(bombArray);
+  // console.log(bombArray);
   for (let i = 0; i < bombArray.length; i++) {
     // get the index for the first part of the game array for the random number
     let index1 = Math.floor(bombArray[i] / width);
-    console.log(index1, width);
+    // console.log(index1, width);
     // get the index for the second part of the array for the random number
     let index2;
     if (index1 === 0) {
@@ -49,7 +49,7 @@ function makeGameArray(width, height, bombCount) {
       index2 = bombArray[i] % (index1 * width);
     }
 
-    console.log(index2, height);
+    // console.log(index2, height);
     // console.log(index1, index2, gameArray[index1][index2]);
     // push the bomb value (9) to the correct position in the array
     gameArray[index1][index2] = 9;
@@ -100,7 +100,7 @@ class Game extends React.Component {
 
     // initialise the state of the game, use array within an array so we can distinguish the rows for styling
     this.state = {
-      gameMatrix: makeGameArray(9, 9, 10),
+      gameMatrix: makeGameArray(15, 15, 10),
       elapsedTime: null,
       lost: null,
       won: null,
@@ -145,6 +145,10 @@ class Game extends React.Component {
   }
 
   handleSettingsSubmit() {
+    console.log("hello", this.state.width);
+    console.log(
+      makeGameArray(this.state.width, this.state.height, this.state.bombCount)
+    );
     this.setState({
       gameMatrix: makeGameArray(
         this.state.width,

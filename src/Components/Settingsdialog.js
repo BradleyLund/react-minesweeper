@@ -92,7 +92,7 @@ class Settingsdialog extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={this.props.handleSettingsSubmit}
+              onClick={() => this.props.handleSettingsSubmit()}
               color="primary"
               autoFocus>
               Submit
