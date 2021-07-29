@@ -21,16 +21,26 @@ function makeGameArray(width, height, bombCount) {
     bombArray.push(randomBomb);
   }
 
-  // console.log(bombArray);
+  console.log(bombArray);
 
   // make a random array of 9*9
   let gameArray = [];
+  console.log("empty array", gameArray);
+  console.log("height", height, "width", width);
+  console.log(typeof height);
+
   for (let i = 0; i < height; i++) {
     let rowArray = new Array(width).fill(0);
+    console.log(JSON.parse(JSON.stringify(rowArray)));
+    console.log(JSON.parse(JSON.stringify(new Array(width).fill(0))));
+
+    console.log(width, "in the loop");
     gameArray.push(rowArray);
   }
-
-  // console.log(gameArray);
+  console.log(
+    "should be an empty array of h*w",
+    JSON.parse(JSON.stringify(gameArray))
+  );
   // console.log(bombArray);
   for (let i = 0; i < bombArray.length; i++) {
     // get the index for the first part of the game array for the random number
@@ -100,7 +110,7 @@ class Game extends React.Component {
 
     // initialise the state of the game, use array within an array so we can distinguish the rows for styling
     this.state = {
-      gameMatrix: makeGameArray(15, 15, 10),
+      gameMatrix: makeGameArray(9, 9, 10),
       elapsedTime: null,
       lost: null,
       won: null,
@@ -135,26 +145,34 @@ class Game extends React.Component {
 
   handleSettingsChange(event) {
     // console.log(event);
+
+    // I had huge issues that took ages to resolve by using
     if (event.target.id === "width") {
-      this.setState({ width: event.target.value });
+      this.setState({ width: event.target.valueAsNumber });
     } else if (event.target.id === "height") {
-      this.setState({ height: event.target.value });
+      this.setState({ height: event.target.valueAsNumber });
     } else {
-      this.setState({ bombCount: event.target.value });
+      this.setState({ bombCount: event.target.valueAsNumber });
     }
   }
 
   handleSettingsSubmit() {
-    console.log("hello", this.state.width);
     console.log(
-      makeGameArray(this.state.width, this.state.height, this.state.bombCount)
+      "input details",
+      this.state.width,
+      this.state.height,
+      this.state.bombCount
     );
+
+    let settingsGameArray = makeGameArray(
+      this.state.width,
+      this.state.height,
+      this.state.bombCount
+    );
+
+    console.log(JSON.parse(JSON.stringify(settingsGameArray)));
     this.setState({
-      gameMatrix: makeGameArray(
-        this.state.width,
-        this.state.height,
-        this.state.bombCount
-      ),
+      gameMatrix: settingsGameArray,
     });
   }
 
