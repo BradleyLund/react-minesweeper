@@ -9,7 +9,7 @@ class Board extends React.Component {
     // testing to see if I can git push
 
     const gameSquares = this.props.gameMatrix.map((row, rowIndex) => (
-      <div className="board-row" key={row}>
+      <div className="board-row">
         {row.map((square, index) => (
           <Square
             value={square}
@@ -17,7 +17,7 @@ class Board extends React.Component {
             index={index}
             handleClick={this.props.handleClick}
             handleContextClick={this.props.handleContextClick}
-            key={`${rowIndex}${index}`}
+            // key={}
           />
         ))}
       </div>
