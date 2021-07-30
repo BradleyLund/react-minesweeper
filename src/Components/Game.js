@@ -240,6 +240,8 @@ class Game extends React.Component {
         clickedSquare.classList.add("losing-bomb");
 
         // loop through all of the squares and take away the hidden class
+
+        // I can just select all the elements of class square and remove the hidden class
         for (let i = 0; i < this.state.gameMatrix.length; i++) {
           for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
             let square = document.getElementById(`${i}${j}`);
