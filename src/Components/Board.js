@@ -6,10 +6,9 @@ class Board extends React.Component {
     // we do a map within a map here, with each row of the matrix being its own array which creates
     // the game squares
     // We want to pass it the handleClick function
-    // testing to see if I can git push
 
     const gameSquares = this.props.gameMatrix.map((row, rowIndex) => (
-      <div className="board-row">
+      <div className="board-row" key={`${String.fromCharCode(rowIndex + 65)}`}>
         {row.map((square, index) => (
           <Square
             value={square}
@@ -17,13 +16,10 @@ class Board extends React.Component {
             index={index}
             handleClick={this.props.handleClick}
             handleContextClick={this.props.handleContextClick}
-            // key={}
           />
         ))}
       </div>
     ));
-
-    // console.log(gameSquares)
 
     return <div>{gameSquares}</div>;
   }
