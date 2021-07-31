@@ -6,7 +6,7 @@ class App extends React.Component {
   render() {
     return (
       <div id="everything">
-        <h2>Welcome to Minesweeper</h2>
+        <h2>MINESWEEPER</h2>
         <Game />
       </div>
     );

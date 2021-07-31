@@ -317,10 +317,10 @@ class Game extends React.Component {
         // submit the id to the function
 
         // we need to change event.target.id[1] because it could be 10 or greater unfortunately
-        console.log(event.target.id);
+        console.log(event.target.id.slice(1));
         removeAround(
           parseInt(event.target.id[0].charCodeAt(0) - 65),
-          parseInt(event.target.id[1])
+          parseInt(event.target.id.slice(1))
         );
       }
     }
@@ -384,7 +384,7 @@ class Game extends React.Component {
             />
           </div>
 
-          <div>
+          <div id="bottomDiv">
             <Helpdialog />
             {/* Make a settings dialog here with a form input that only allows up to 20*20 and as 
           many bombs as the n*m that has been selected */}

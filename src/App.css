@@ -1,9 +1,10 @@
 
-
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 /* basic css from the tic tac toe tutorial to get a basic board set up in the beginning */
 
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
+  /* font: 14px "Century Gothic", Futura, sans-serif; */
+  font-family: 'VT323', monospace;
   margin: 20px;
 }
 
@@ -12,13 +13,11 @@ ul {
   padding-left: 30px;
 }
 
-.status {
-  margin-bottom: 10px;
-}
+
 
 .square {
   background: #fff;
-  border: 1px solid #999;
+  border: 1px solid rgb(88, 81, 81);
   float: left;
   font-size: 24px;
   font-weight: bold;
@@ -50,7 +49,7 @@ ul {
 }
 
 .hidden {
-  background-color: #c6c6c6;
+  background-color: #4d79cc;
   /* Make this font-size 0 so until it is clicked, nothing will show */
   font-size: 0;
 }
@@ -66,7 +65,7 @@ ul {
   background: url("./flag-red.svg");
   background-size: 34px 34px;
   background-repeat: no-repeat;
-  background-color: #c6c6c6;
+  background-color: #4d79cc;
 }
 
 #root {
@@ -94,7 +93,7 @@ button {
   margin: 0;
   text-decoration: none;
 
-  font-family: sans-serif;
+  font-family: 'VT323', monospace;
   /* font-size: 1rem; */
   /* make the cursor a cool one */
   cursor: pointer;
@@ -105,24 +104,31 @@ button {
   background: #0069ed;
   color: #ffffff;
   border-radius: 5px;
+  font-size: 20px;
 }
 
 #helpButton {
   background: #0069ed;
   color: #ffffff;
   border-radius: 5px;
+  width: 80px;
+  font-size: 20px;
+
 }
 
-#helpDiv {
-  margin-top: 20px;
-  margin-bottom: 20px;
+#settingsButton {
+  background: #0069ed;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 20px;
 }
+
 
 #message {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   font-size: 2rem;
   width: 100%;
   margin-bottom: 20px;
@@ -133,9 +139,11 @@ button {
 }
 
 #everything {
-  background-color: #61dafb;
+  background-color: #c334d6;
   width: 700px;
-  border-radius: 5px;
+  border-radius: 10px;
+  border: black solid 3px;
+  font-size: 40px;
 }
 
 #settings {
@@ -143,6 +151,12 @@ button {
   flex-direction: column;
   justify-content: space-evenly;
   width:300px;
+}
+
+#bottomDiv {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 20px;
 }
 
 .inputs {

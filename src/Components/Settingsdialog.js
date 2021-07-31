@@ -38,7 +38,7 @@ class Settingsdialog extends React.Component {
     return (
       <div id="settingsDiv">
         <button id="settingsButton" onClick={this.handleClickToOpen}>
-          Help
+          Settings
         </button>
         <Dialog open={this.state.open} onClose={this.handleToClose}>
           <DialogTitle>Settings</DialogTitle>
