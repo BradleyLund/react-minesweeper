@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 
 class Square extends React.Component {
   render() {
-    console.log(String.fromCharCode(this.props.rowIndex + 65));
+    // console.log(String.fromCharCode(this.props.rowIndex + 65));
     return (
       <button
         className="square hidden"

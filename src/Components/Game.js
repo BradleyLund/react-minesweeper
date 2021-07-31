@@ -21,26 +21,26 @@ function makeGameArray(width, height, bombCount) {
     bombArray.push(randomBomb);
   }
 
-  console.log(bombArray);
+  // console.log(bombArray);
 
   // make a random array of 9*9
   let gameArray = [];
-  console.log("empty array", gameArray);
-  console.log("height", height, "width", width);
-  console.log(typeof height);
+  // console.log("empty array", gameArray);
+  // console.log("height", height, "width", width);
+  // console.log(typeof height);
 
   for (let i = 0; i < height; i++) {
     let rowArray = new Array(width).fill(0);
-    console.log(JSON.parse(JSON.stringify(rowArray)));
-    console.log(JSON.parse(JSON.stringify(new Array(width).fill(0))));
+    // console.log(JSON.parse(JSON.stringify(rowArray)));
+    // console.log(JSON.parse(JSON.stringify(new Array(width).fill(0))));
 
-    console.log(width, "in the loop");
+    // console.log(width, "in the loop");
     gameArray.push(rowArray);
   }
-  console.log(
-    "should be an empty array of h*w",
-    JSON.parse(JSON.stringify(gameArray))
-  );
+  // console.log(
+  //   "should be an empty array of h*w",
+  //   JSON.parse(JSON.stringify(gameArray))
+  // );
   // console.log(bombArray);
   for (let i = 0; i < bombArray.length; i++) {
     // get the index for the first part of the game array for the random number
@@ -157,12 +157,12 @@ class Game extends React.Component {
   }
 
   handleSettingsSubmit() {
-    console.log(
-      "input details",
-      this.state.width,
-      this.state.height,
-      this.state.bombCount
-    );
+    // console.log(
+    //   "input details",
+    //   this.state.width,
+    //   this.state.height,
+    //   this.state.bombCount
+    // );
 
     let settingsGameArray = makeGameArray(
       this.state.width,
@@ -170,7 +170,7 @@ class Game extends React.Component {
       this.state.bombCount
     );
 
-    console.log(JSON.parse(JSON.stringify(settingsGameArray)));
+    // console.log(JSON.parse(JSON.stringify(settingsGameArray)));
     this.setState({
       gameMatrix: settingsGameArray,
     });
@@ -204,7 +204,9 @@ class Game extends React.Component {
 
     for (let i = 0; i < this.state.gameMatrix.length; i++) {
       for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
-        let square = document.getElementById(`${i}${j}`);
+        let square = document.getElementById(
+          `${String.fromCharCode(i + 65)}${j}`
+        );
         if (square.classList.contains("hidden")) {
           gameWon = false;
         }
@@ -244,8 +246,6 @@ class Game extends React.Component {
         // I can just select all the elements of class square and remove the hidden class
         let allSquares = document.getElementsByClassName("square");
 
-        console.log(allSquares.length);
-
         for (let i = 0; i < allSquares.length; i++) {
           allSquares[i].classList.remove("hidden");
         }
@@ -283,8 +283,10 @@ class Game extends React.Component {
               for (let l = -1; l < 2; l++) {
                 if (gameMatrix[i + k][j + l] !== undefined) {
                   // remove the hidden class for the square with this id
-                  let index1 = String(i + k);
+                  let index1 = String.fromCharCode(i + k + 65);
                   let index2 = String(j + l);
+
+                  console.log(index1, index2);
 
                   let id = index1 + index2;
 
@@ -313,8 +315,11 @@ class Game extends React.Component {
         // console.log(event.target.id[0], event.target.id[1]);
         // then while removing the classes if textContent of that id is nothing
         // submit the id to the function
+
+        // we need to change event.target.id[1] because it could be 10 or greater unfortunately
+        console.log(event.target.id);
         removeAround(
-          parseInt(event.target.id[0]),
+          parseInt(event.target.id[0].charCodeAt(0) - 65),
           parseInt(event.target.id[1])
         );
       }
@@ -371,11 +376,14 @@ class Game extends React.Component {
           </div>
 
           {/* pass down the state of the gameMatrix down to the board */}
-          <Board
-            gameMatrix={this.state.gameMatrix}
-            handleClick={this.handleClick}
-            handleContextClick={this.handleContextClick}
-          />
+          <div id="board">
+            <Board
+              gameMatrix={this.state.gameMatrix}
+              handleClick={this.handleClick}
+              handleContextClick={this.handleContextClick}
+            />
+          </div>
+
           <div>
             <Helpdialog />
             {/* Make a settings dialog here with a form input that only allows up to 20*20 and as 
