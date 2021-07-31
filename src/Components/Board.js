@@ -16,6 +16,8 @@ class Board extends React.Component {
             index={index}
             handleClick={this.props.handleClick}
             handleContextClick={this.props.handleContextClick}
+            // unique key which is the same as the id
+            key={`${String.fromCharCode(rowIndex + 65)}${index}`}
           />
         ))}
       </div>

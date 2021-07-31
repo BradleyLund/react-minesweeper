@@ -12,11 +12,7 @@ class Square extends React.Component {
           this.props.index
         }`}
         onClick={(event) => this.props.handleClick(event)}
-        onContextMenu={(event) => this.props.handleContextClick(event)}
-        // unique key which is the same as the id
-        key={`${String.fromCharCode(this.props.rowIndex + 65)}${
-          this.props.index
-        }`}>
+        onContextMenu={(event) => this.props.handleContextClick(event)}>
         {/* give the textContent the bomb emoji if it is a bomb, otherwise the number of bombs surrounding that block */}
         {this.props.value === 9
           ? "💣"
