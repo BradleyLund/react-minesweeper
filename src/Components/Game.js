@@ -242,12 +242,23 @@ class Game extends React.Component {
         // loop through all of the squares and take away the hidden class
 
         // I can just select all the elements of class square and remove the hidden class
-        for (let i = 0; i < this.state.gameMatrix.length; i++) {
-          for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
-            let square = document.getElementById(`${i}${j}`);
-            square.classList.remove("hidden");
-          }
+        let allSquares = document.getElementsByClassName("square");
+
+        console.log(allSquares.length);
+
+        for (let i = 0; i < allSquares.length; i++) {
+          allSquares[i].classList.remove("hidden");
         }
+
+        // allSquares.forEach((square) => square.classList.remove("hidden"));
+
+        // allSquares.classList.remove("hidden");
+        // for (let i = 0; i < this.state.gameMatrix.length; i++) {
+        //   for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
+        //     let square = document.getElementById(`${i}${j}`);
+        //     square.classList.remove("hidden");
+        //   }
+        // }
 
         this.setState({
           lost: true,
@@ -319,7 +330,9 @@ class Game extends React.Component {
 
     for (let i = 0; i < this.state.gameMatrix.length; i++) {
       for (let j = 0; j < this.state.gameMatrix[i].length; j++) {
-        let square = document.getElementById(`${i}${j}`);
+        let square = document.getElementById(
+          `${String.fromCharCode(i + 65)}${j}`
+        );
 
         // if any tile contains hiddden then the game is not over, if they are all
         // unhidden but one of the tiles has the losing bomb class then the game was lost
